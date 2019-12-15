@@ -1,0 +1,18 @@
+{
+  "name": "api-fatec-classroom",
+  "version": "1.0.0",
+  "description": "API para gerenciamento de salas e laboratorios da fatec jahu",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/server.js"
+  },
+  "author": "Gabriel José de Oliveira, Vinicius Bueno",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
