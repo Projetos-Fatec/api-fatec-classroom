@@ -279,13 +279,19 @@ DROP TABLE IF EXISTS `tb_errorreport`;
 CREATE TABLE `tb_errorreport` (
   `idErrorReport` int(11) NOT NULL AUTO_INCREMENT,
   `idProfessor` int(11) NOT NULL,
+  `idClassroom` int(11) NOT NULL,
+  `idEquipment` int(11) NOT NULL,
   `title` varchar(40) NOT NULL,
   `descriptive` text NOT NULL,
   `reportStatus` enum('aguardando','concluido') NOT NULL,
   `dateRegister` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`idErrorReport`),
   KEY `idProfessor` (`idProfessor`),
-  CONSTRAINT `tb_errorreport_ibfk_1` FOREIGN KEY (`idProfessor`) REFERENCES `tb_professor` (`idProfessor`)
+  KEY `idClassroom` (`idClassroom`),
+  KEY `idEquipment` (`idEquipment`),
+  CONSTRAINT `tb_errorreport_ibfk_1` FOREIGN KEY (`idProfessor`) REFERENCES `tb_professor` (`idProfessor`),
+  CONSTRAINT `tb_errorreport_ibfk_2` FOREIGN KEY (`idClassroom`) REFERENCES `tb_classroom` (`idClassroom`),
+  CONSTRAINT `tb_errorreport_ibfk_3` FOREIGN KEY (`idEquipment`) REFERENCES `tb_equipment` (`idEquipment`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -387,15 +393,15 @@ DROP TABLE IF EXISTS `tb_request`;
 CREATE TABLE `tb_request` (
   `idRequest` int(11) NOT NULL AUTO_INCREMENT,
   `idProfessor` int(11) NOT NULL,
-  `idClass` int(11) NOT NULL,
+  `idClassroom` int(11) NOT NULL,
   `dateRegister` timestamp NOT NULL DEFAULT current_timestamp(),
   `requestStatus` enum('aguardando','concluido') NOT NULL,
   `feedback` text NOT NULL,
   PRIMARY KEY (`idRequest`),
   KEY `idProfessor` (`idProfessor`),
-  KEY `idClass` (`idClass`),
+  KEY `idClassroom` (`idClassroom`),
   CONSTRAINT `tb_request_ibfk_1` FOREIGN KEY (`idProfessor`) REFERENCES `tb_professor` (`idProfessor`),
-  CONSTRAINT `tb_request_ibfk_2` FOREIGN KEY (`idClass`) REFERENCES `tb_class` (`idClass`)
+  CONSTRAINT `tb_request_ibfk_2` FOREIGN KEY (`idClassroom`) REFERENCES `tb_classroom` (`idClassroom`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
