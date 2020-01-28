@@ -6,6 +6,6 @@
   putenv("MYSQL_PORT=3306");
   putenv("MYSQL_USERNAME=root");
   putenv("MYSQL_PASSWORD=");
-  putenv("MYSQL_DBNAME=db_fatecclassroom");
+  putenv("MYSQL_DBNAME=restapi");
 
 ?>
