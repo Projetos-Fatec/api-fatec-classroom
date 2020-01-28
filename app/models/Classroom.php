@@ -10,6 +10,7 @@
 
     public function __construct(array $data)
     {
+      $this->id = $data["idClassroom"] ?? null;
       $this->descriptive = $data["descriptive"];
       $this->classroomType = $data["classroomType"];
     }
@@ -44,6 +45,7 @@
     public function getValues(): array
     {
       return [
+        "idClassroom"=> $this->id,
         "descriptive"=> $this->descriptive,
         "classroomType"=> $this->classroomType
       ];

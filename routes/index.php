@@ -12,6 +12,7 @@
   $app->get("/classroom/{id}", ClassroomController::class . ":show");
   $app->post("/classroom", ClassroomController::class . ":create");
   $app->put("/classroom/{id}", ClassroomController::class . ":update");
+  $app->delete("/classroom/{id}", ClassroomController::class . ":destroy");
 
   $app->run();
 

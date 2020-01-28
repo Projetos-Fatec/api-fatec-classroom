@@ -38,6 +38,30 @@
       ]);
     }
 
+    public function update(Classroom $classroom, array $data): bool
+    {
+      $newData = array_merge($classroom->getValues(), $data);
+
+      $stmt = $this->conn
+        ->prepare("UPDATE tb_classroom SET descriptive = :descriptive, classroomType = :classroomType WHERE idClassroom = :id");
+      
+      return $stmt->execute([
+        "descriptive"=> $newData["descriptive"],
+        "classroomType"=> $newData["classroomType"],
+        "id"=> $newData["idClassroom"]
+      ]);
+    }
+
+    public function delete(Classroom $classroom): bool
+    {
+      $stmt = $this->conn
+        ->prepare("DELETE FROM tb_classroom WHERE idClassroom = :id");
+
+      return $stmt->execute([
+        "id"=> $classroom->getId()
+      ]);
+    }
+  
   }
 
 ?>

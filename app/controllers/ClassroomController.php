@@ -51,7 +51,25 @@
       $classroomDAO = new ClassroomDAO();
       $classroom = $classroomDAO->find((int) $args["id"]);
       
-      var_dump($classroom);
+      $result = $classroomDAO->update($classroom, $data);
+
+      $response = $response->withJson([
+        "result"=> $result
+      ]);
+
+      return $response;
+    }
+
+    public function destroy(Request $request, Response $response, array $args): Response
+    {
+      $classroomDAO = new ClassroomDAO();
+      $classroom = $classroomDAO->find((int) $args["id"]);
+
+      $result = $classroomDAO->delete($classroom);
+
+      $response = $response->withJson([
+        "result"=> $result
+      ]);
 
       return $response;
     }
