@@ -17,6 +17,10 @@
         ->query("SELECT * FROM tb_classroom")
         ->fetchAll(\PDO::FETCH_ASSOC);
 
+      if (count($classrooms) <= 0) {
+        throw new \Exception("Dados não encontrados", 1);
+      }
+
       return $classrooms;
     }
 
@@ -32,7 +36,7 @@
     public function save(Classroom $classroom): bool
     {
       $stmt = $this->conn->prepare("INSERT INTO tb_classroom VALUES(null, :descriptive, :classroomType)");
-      return $stmt->execute([
+      return $stmt->exectue([
         "descriptive"=> $classroom->getDescriptive(),
         "classroomType"=> $classroom->getClassroomType()
       ]);
