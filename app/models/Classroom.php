@@ -2,22 +2,34 @@
 
   namespace app\models;
 
+  use app\helpers\Validator;
+
   final class Classroom
   {
-    private $id;
+    private $idClassroom;
     private $descriptive;
     private $classroomType;
 
     public function __construct(array $data)
-    {
-      $this->id = $data["idClassroom"] ?? null;
-      $this->descriptive = $data["descriptive"];
-      $this->classroomType = $data["classroomType"];
+    { 
+      $this->idClassroom = $data["idClassroom"] ?? null;
+      $this->descriptive = $data["descriptive"] ?? "";
+      $this->classroomType = $data["classroomType"] ?? "";
+
+      Validator::validator($this, "descriptive", [ "present"=> true, "min"=> 3, "max"=> 3 ]);
+      Validator::validator($this, "classroomType", [ "present"=> true, "min"=> 3, "max"=> 4 ]);
+
     }
 
-    public function getId(): int
+    public function getIdClassroom(): int
     {
-      return (int) $this->id;
+      return (int) $this->idClassroom;
+    }
+
+    public function setIdClassroom($id): Classroom
+    {
+      $this->idClassroom = (int) $id;
+      return $this;
     }
 
     public function getDescriptive(): string 
@@ -45,10 +57,23 @@
     public function getValues(): array
     {
       return [
-        "idClassroom"=> $this->id,
+        "idClassroom"=> $this->idClassroom,
         "descriptive"=> $this->descriptive,
         "classroomType"=> $this->classroomType
       ];
+    }
+
+    public function setValues(array $data): Classroom
+    {
+      foreach ($data as $key => $value) {
+        $this->{"set".ucfirst($key)}($value);
+      }
+      return $this;
+    }
+
+    public function __toString()
+    {
+      return "Classroom";
     }
 
   }

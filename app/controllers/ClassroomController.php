@@ -6,6 +6,7 @@
 	use Psr\Http\Message\ResponseInterface as Response;
   use app\dao\ClassroomDAO;
   use app\models\Classroom;
+  use app\helpers\Validator;
 
   final class ClassroomController
   {
@@ -28,6 +29,8 @@
     {
       $data = $request->getParsedBody();
 
+      Validator::validParsedBody($data, ["descriptive", "classroomType"]);
+
       $classroomDAO = new ClassroomDAO();
       $classroom = new Classroom($data);
 
@@ -48,10 +51,15 @@
     {
       $data = $request->getParsedBody();
 
+      Validator::validParsedBody($data, ["descriptive", "classroomType"]);
+
       $classroomDAO = new ClassroomDAO();
       $classroom = $classroomDAO->find((int) $args["id"]);
-      
-      $result = $classroomDAO->update($classroom, $data);
+
+      #gera um novo objeto com o mix dos dados
+      $classroom = new Classroom(array_merge($classroom->getValues(), $data));
+
+      $result = $classroomDAO->update($classroom);
 
       $response = $response->withJson([
         "result"=> $result

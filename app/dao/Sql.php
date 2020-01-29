@@ -24,6 +24,30 @@
 
     }
 
+    private function bindParams(array $params = [], $stmt): void
+    {
+      foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value);
+      }
+    }
+
+    public function query(string $query, array $params = []): bool
+    {
+      $stmt = $this->conn->prepare($query);
+      $this->bindParams($params, $stmt);
+      return $stmt->execute();
+    }
+
+    public function select(string $query, array $params = []): array
+    {
+      $stmt = $this->conn->prepare($query);
+      $this->bindParams($params, $stmt);
+      $stmt->execute();
+      
+      return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+    }
+
     public function __destruct()
     {
       $this->conn = null;

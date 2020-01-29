@@ -7,7 +7,7 @@
 
   class ExceptionMiddleware 
   {
-    public static function isValid(Request $request, Response $response, $next): Response
+    public static function captureExceptions(Request $request, Response $response, $next): Response
     {
       try {
         $response = $next($request, $response);

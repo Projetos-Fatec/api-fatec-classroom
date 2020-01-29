@@ -13,9 +13,7 @@
 
     public function all(): array
     {
-      $classrooms = $this->conn
-        ->query("SELECT * FROM tb_classroom")
-        ->fetchAll(\PDO::FETCH_ASSOC);
+      $classrooms = $this->select("SELECT * FROM tb_classroom");
 
       if (count($classrooms) <= 0) {
         throw new \Exception("Dados não encontrados", 1);
@@ -26,9 +24,9 @@
 
     public function find(int $id): Classroom
     {
-      $classroom = $this->conn
-        ->query("SELECT * FROM tb_classroom WHERE idClassroom = $id")
-        ->fetchAll(\PDO::FETCH_ASSOC);
+      $classroom = $this->select("SELECT * FROM tb_classroom WHERE idClassroom = :id", [
+        ":id"=> $id
+      ]);
 
       if(count($classroom) <= 0){
         throw new \Exception("Nenhum registro encontrado", 400);
@@ -39,24 +37,18 @@
 
     public function save(Classroom $classroom): bool
     {
-      $stmt = $this->conn->prepare("INSERT INTO tb_classroom VALUES(null, :descriptive, :classroomType)");
-      return $stmt->exectue([
+      return $this->query("INSERT INTO tb_classroom VALUES(null, :descriptive, :classroomType)", [
         "descriptive"=> $classroom->getDescriptive(),
         "classroomType"=> $classroom->getClassroomType()
       ]);
     }
 
-    public function update(Classroom $classroom, array $data): bool
+    public function update(Classroom $classroom): bool
     {
-      $newData = array_merge($classroom->getValues(), $data);
-
-      $stmt = $this->conn
-        ->prepare("UPDATE tb_classroom SET descriptive = :descriptive, classroomType = :classroomType WHERE idClassroom = :id");
-      
-      return $stmt->execute([
-        "descriptive"=> $newData["descriptive"],
-        "classroomType"=> $newData["classroomType"],
-        "id"=> $newData["idClassroom"]
+      return $this->query("UPDATE tb_classroom SET descriptive = :descriptive, classroomType = :classroomType WHERE idClassroom = :id", [
+        "descriptive"=> $classroom->getDescriptive(),
+        "classroomType"=> $classroom->getClassroomType(),
+        "id"=> $classroom->getIdClassroom()
       ]);
     }
 
