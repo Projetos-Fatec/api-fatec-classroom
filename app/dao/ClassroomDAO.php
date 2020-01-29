@@ -30,6 +30,10 @@
         ->query("SELECT * FROM tb_classroom WHERE idClassroom = $id")
         ->fetchAll(\PDO::FETCH_ASSOC);
 
+      if(count($classroom) <= 0){
+        throw new \Exception("Nenhum registro encontrado", 400);
+      }
+
       return new Classroom($classroom[0]);
     }
 
