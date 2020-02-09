@@ -58,7 +58,7 @@
         ->prepare("DELETE FROM tb_classroom WHERE idClassroom = :id");
 
       return $stmt->execute([
-        "id"=> $classroom->getId()
+        "id"=> $classroom->getIdClassroom()
       ]);
     }
   
